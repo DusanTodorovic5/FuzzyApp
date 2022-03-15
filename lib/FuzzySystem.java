@@ -139,7 +139,7 @@ public class FuzzySystem implements JsonSerializable {
 	public Double applyImplicationMethod(Double dataPoint, Double implicationValue) {
 		switch (getImplicationMethod()) {
 		case CLIP:
-			return dataPoint > implicationValue ? dataPoint : implicationValue;
+			return dataPoint < implicationValue ? dataPoint : implicationValue;
 		case SCALE:
 			return dataPoint * implicationValue;
 		}
@@ -230,7 +230,7 @@ public class FuzzySystem implements JsonSerializable {
 								: triple.getFirst().fuzzify(outputXaxis.get(outKey)[i], triple.getSecond());
 						switch (implicationMethod) {
 						case CLIP:
-							y[i] = Math.max(ruleInput.get(ruleInput.size() - 1), y[i]);
+							y[i] = ruleInput.get(ruleInput.size() - 1)> y[i]?y[i]:ruleInput.get(ruleInput.size() - 1);
 							break;
 						case SCALE:
 							y[i] = ruleInput.get(ruleInput.size() - 1) * y[i];
@@ -271,8 +271,8 @@ public class FuzzySystem implements JsonSerializable {
 					double[] d = map.get(output.getOutputName()); // returns y axis of output in the list
 					if (d != null) { // if exists
 						for (int i = 0; i < POINTS_N; i++) {
-							outputYaxis.get(output.getOutputName())[i] = Math.max(d[i],
-									outputYaxis.get(output.getOutputName())[i]); // update Y values of each output
+							outputYaxis.get(output.getOutputName())[i] = d[i]>
+									outputYaxis.get(output.getOutputName())[i]?d[i]:outputYaxis.get(output.getOutputName())[i]; // update Y values of each output
 						}
 					}
 				}
@@ -295,7 +295,7 @@ public class FuzzySystem implements JsonSerializable {
 			double arrSum = 0.0;
 			for (int i = 0; i < POINTS_N; i++) {
 				res += outputYaxis.get(out.getOutputName())[i] * outputXaxis.get(out.getOutputName())[i];
-				arrSum += outputXaxis.get(out.getOutputName())[i];
+				arrSum += outputYaxis.get(out.getOutputName())[i];
 			}
 			res /= arrSum;
 			defuzzifiedValues.put(out.getOutputName(), res);
