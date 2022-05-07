@@ -36,7 +36,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.fuzzy_app"
+        applicationId "com.duke.fuzzy_app"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
@@ -54,4 +54,8 @@ android {
 
 flutter {
     source '../..'
+}
+
+dependencies {
+    implementation files('libs/json.jar')
 }
